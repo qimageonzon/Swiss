@@ -16,17 +16,16 @@ data_source_parent = data_parent_path / "Coppel Related"
 
 data_split_dir = data_parent_path / "Coppel Split"
 
-if  data_split_dir.exists():
+if data_split_dir.exists():
     shutil.rmtree(data_split_dir)
 os.mkdir(data_split_dir)
 
 
 for content in data_source_parent.iterdir():
-    
+
     subgroup_dir = data_split_dir / content.relative_to(data_source_parent)
 
     os.mkdir(subgroup_dir)
-
 
     test_split = subgroup_dir / "For_Testing"
     training_split = subgroup_dir / "For_Training"
@@ -35,7 +34,7 @@ for content in data_source_parent.iterdir():
     os.mkdir(training_split)
 
 
-lead_name_list = ["23L","23N","DGN","SKU","T-24"]
+lead_name_list = ["23L", "23N", "DGN", "SKU", "T-24"]
 
 for group in data_source_parent.iterdir():
     print(f"Group: {group.name}")
@@ -47,12 +46,10 @@ for group in data_source_parent.iterdir():
         file_list = []
 
         for content in group.iterdir():
-   
+
             if lead_name in content.name:
 
                 file_list.append(content)
-
-
 
         file_super_list.append(file_list)
 
@@ -63,7 +60,7 @@ for group in data_source_parent.iterdir():
         initial_copy_list = copy.deepcopy(file_sub_list)
 
         if len(file_sub_list) > 0:
-            initial_test_length = int(len(initial_copy_list)*0.2)
+            initial_test_length = int(len(initial_copy_list) * 0.2)
             if initial_test_length == 0:
                 initial_test_length += 1
         else:
@@ -81,20 +78,28 @@ for group in data_source_parent.iterdir():
 
             for content in working_list:
 
-                copy_dir = data_split_dir / content.relative_to(data_source_parent).parent / "For_Testing"
+                copy_dir = (
+                    data_split_dir
+                    / content.relative_to(data_source_parent).parent
+                    / "For_Testing"
+                )
 
                 copy_path = copy_dir / content.name
 
-                shutil.copy2(content,copy_path)
+                shutil.copy2(content, copy_path)
         else:
             for content in initial_test_split:
 
-                copy_dir = data_split_dir / content.relative_to(data_source_parent).parent / "For_Testing"
+                copy_dir = (
+                    data_split_dir
+                    / content.relative_to(data_source_parent).parent
+                    / "For_Testing"
+                )
 
                 copy_path = copy_dir / content.name
 
-                shutil.copy2(content,copy_path)
-        
+                shutil.copy2(content, copy_path)
+
         train_length = 20
 
         if len(initial_copy_list) > train_length:
@@ -102,16 +107,24 @@ for group in data_source_parent.iterdir():
 
             for content in working_list:
 
-                copy_dir = data_split_dir / content.relative_to(data_source_parent).parent / "For_Training"
+                copy_dir = (
+                    data_split_dir
+                    / content.relative_to(data_source_parent).parent
+                    / "For_Training"
+                )
 
                 copy_path = copy_dir / content.name
 
-                shutil.copy2(content,copy_path)
+                shutil.copy2(content, copy_path)
         else:
             for content in initial_copy_list:
 
-                copy_dir = data_split_dir / content.relative_to(data_source_parent).parent / "For_Training"
+                copy_dir = (
+                    data_split_dir
+                    / content.relative_to(data_source_parent).parent
+                    / "For_Training"
+                )
 
                 copy_path = copy_dir / content.name
 
-                shutil.copy2(content,copy_path)
+                shutil.copy2(content, copy_path)
